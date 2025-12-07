@@ -1,0 +1,30 @@
+experiment: mnist_baseline
+dataset:
+  name: mnist
+  root: ./data/cache    # path to store data
+  img_size: 28          # 28 for MNIST
+  patch: 4              # patch size for splitting the image
+  augment: false
+model:
+  d_model: 192
+  heads: 3
+  mlp_ratio: 2.0
+  depth: 6
+  layers: ["Reg","Reg","Reg","Reg","Reg","Reg"]   # all regular softmax
+  performer:
+    kind: "favor+"      # type of performer attention
+    m: 64               # nb of random features for performer        
+optim:
+  batch_size: 128
+  lr: 3e-4
+  weight_decay: 0.05    # weight decay for optimizer
+  epochs: 50            # number of training epochs
+  warmup_epochs: 5      # number of warmup epochs
+  grad_clip: 1.0        # gradient clipping value
+log:
+  out_dir: ./runs
+  print_every: 50       # print frequency during training
+  save_every: 10        # model checkpoint save frequency
+misc:
+  seed: 17092003        # random seed for reproducibility
+  fp16: true
