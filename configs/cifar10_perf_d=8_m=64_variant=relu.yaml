@@ -9,8 +9,8 @@ model:
   d_model: 256
   heads: 4
   mlp_ratio: 2.0
-  depth: 6
-  layers: ["Perf", "Perf", "Perf", "Perf", "Perf", "Perf"]
+  depth: 8
+  layers: ["Perf", "Perf", "Perf", "Perf", "Perf", "Perf", "Perf", "Perf"]
   performer:
     variant: "relu"
     kind: "favor+"

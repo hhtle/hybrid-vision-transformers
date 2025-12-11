@@ -1,6 +1,6 @@
 Config name: cifar10_test
-Model info: dataset=cifar10 | d_model=256 | heads=4 | depth=1 | mlp_ratio=2.0 | patch=4 | m=64 | variant=softmax | layers=['Reg']
+Model info: dataset=cifar10 | m=64 | variant=softmax | layers=['Reg']
 
 Num epochs: 2
-Best val accuracy: 41.6400% (epoch 2)
-Total training time: 315.77 s
+Best val accuracy: 39.8800% (epoch 2)
+Total training time: 326.06 s

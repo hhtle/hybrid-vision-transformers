@@ -13,29 +13,6 @@ on MNIST and CIFAR-10, and log accuracy, parameter counts, and training time.
 
 ## 1. Installation and dependencies
 
-It is recommended to use a virtual environment (for example `.venv` or `.env`).
-
-Create and activate a virtual environment (example with `.venv`):
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate   # On Windows: .venv\Scripts\activate
-```
-
-Install the core dependencies (you can adapt torch/torchvision versions to your system):
-
-```bash
-pip install torch torchvision torchaudio
-pip install pyyaml tqdm
-```
-
-If you already have a working environment for the project and just want to generate a `requirements.txt` that captures the exact versions you used, simply run:
-
-```bash
-# Assuming your virtualenv (.venv / .env) is already activated
-pip freeze > requirements.txt
-```
-
 To reproduce the environment on another machine:
 
 ```bash
@@ -53,10 +30,11 @@ The repository is organized as follows:
 ```text
 .
 ├── main.py
+├── data.ipynb                 # quick notebook to inspect how data and configs are loaded
 ├── models/
-│   ├── regular_vit.py     # regular vit architecture (did at first, not useful anymore for the hybrid vit)
-│   ├── model_analysis.py  # generates graphs from runs results
-│   └── hybrid_vit.py      # main model
+│   ├── regular_vit.py         # original regular ViT implementation (kept for reference)
+│   ├── model_analysis.py      # scripts to generate graphs from runs results
+│   └── hybrid_vit.py          # main Hybrid ViT + Performer implementation
 ├── configs/
 │   ├── mnist_baseline_*.yaml
 │   ├── mnist_perf_*.yaml
@@ -69,34 +47,41 @@ The repository is organized as follows:
 │   ├── cifar10_perf_reg_*.yaml
 │   └── cifar10_interwined_*.yaml
 ├── data/
-│   ├── dataloaders.py
-│   ├── cache/          # downloaded datasets are stored here
-│   └── data.ipynb      # quick notebook to inspect how data is loaded
+│   ├── dataloaders.py         # build train/val/test DataLoaders from a config dict
+│   ├── datasets.py            # build MNIST / CIFAR-10 Dataset objects and splits
+│   ├── transforms.py          # torchvision transforms and preprocessing pipelines
+│   └── cache/                 # downloaded datasets are stored here
 ├── runs/
-│   └── ...             # created automatically on first run
+│   └── ...                    # created automatically on first run (metrics, checkpoints, etc.)
 ├── outputs/
-│   └── ...             # created for aggregated metrics / plots
+│   └── ...                    # created for aggregated metrics, analysis scripts, plots
 └── README.md
 ```
 
 Notes:
 
+Here’s an updated version:
+
 * `models/hybrid_vit.py` contains:
 
-  * the PatchEmbedding module
+  * the `PatchEmbedding` module
   * regular multi-head self-attention
   * Performer attention (ReLU and softmax-kernel variants)
-  * the HybridPerformer model and training/evaluation loops
+  * the `HybridPerformer` model and the main training/evaluation loops
 
-* `data/dataloaders.py` builds the train/val/test dataloaders based on the YAML config (MNIST or CIFAR-10, image size, patches, augmentation, batch size, etc.).
+* `data/dataloaders.py` builds the train/val/test `DataLoader`s from a small config dictionary (dataset name, image size, augmentation flag, batch size, number of workers, etc.).
 
-* `data/data.ipynb` is a small notebook to quickly visualize and understand how the data are loaded and preprocessed before focusing on model/optimization details.
+* `data/datasets.py` constructs the underlying `Dataset` objects for MNIST and CIFAR-10, including a deterministic train/validation split.
+
+* `data/transforms.py` defines the torchvision preprocessing pipelines (resize, data augmentation, normalization, conversion of MNIST to 3 channels, …).
+
+* `data.ipynb` (at the root of the repository) is a small notebook to quickly inspect how configs are loaded, how `build_dataloaders` works, and what the resulting batches look like before moving on to full experiments.
 
 * `runs/` and `outputs/` are created automatically when you run the code:
 
   * each experiment gets its own subdirectory in `runs/` (one per config file)
   * metrics, parameter counts, and checkpoints are stored there
-  * `outputs/` can be used by analysis scripts/notebooks to save aggregated results and plots.
+  * `outputs/` can be used by analysis scripts/notebooks to save aggregated results, tables, and plots.
 
 ---
 
@@ -233,24 +218,6 @@ The `outputs/` directory is intended for higher-level analysis artifacts, for ex
 * training/inference time comparisons
 
 You can generate these from your own analysis scripts or notebooks by reading the CSV files and parameter counts from the `runs/` directory and writing your results into `outputs/`.
-
----
-
-## 6. Inspecting the data (optional)
-
-The notebook:
-
-```text
-data/data.ipynb
-```
-
-provides a quick way to:
-
-* visualize sample images from MNIST and CIFAR-10
-* check image sizes and patching behavior
-* verify that the training/validation/test splits and augmentations are as expected
-
-This is mainly for understanding and debugging the data pipeline before running the full set of experiments.
 
 ---
 

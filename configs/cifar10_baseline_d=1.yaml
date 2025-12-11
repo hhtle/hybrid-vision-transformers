@@ -9,8 +9,8 @@ model:
   d_model: 256              # hidden size (embedding dim)
   heads: 4                  # number of attention heads (256/4 = 64 per head)
   mlp_ratio: 2.0            # FFN expansion ratio (hidden -> 2*hidden -> hidden)
-  depth: 6                  # number of Transformer blocks
-  layers: ["Reg", "Reg", "Reg", "Reg", "Reg", "Reg"]   # all regular softmax attention
+  depth: 1                  # number of Transformer blocks
+  layers: ["Reg"]   # all regular softmax attention
   performer:
     variant: "softmax"  # type of performer attention (softmax or relu)
     kind: "favor+"      # type of performer attention

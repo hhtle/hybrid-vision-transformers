@@ -9,8 +9,8 @@ model:
   d_model: 64
   heads: 4
   mlp_ratio: 2.0
-  depth: 6
-  layers: ["Reg", "Perf", "Reg", "Perf", "Reg", "Perf"]
+  depth: 2
+  layers: ["Reg", "Perf"]
   performer:
     variant: "softmax"
     kind: "favor+"

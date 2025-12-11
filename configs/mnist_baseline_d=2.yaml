@@ -10,7 +10,7 @@ model:
   heads: 3
   mlp_ratio: 2.0
   depth: 2
-  layers: ["Reg"]   # all regular softmax
+  layers: ["Reg", "Reg"]   # all regular softmax
   performer:
     variant: "softmax"  # type of performer attention (softmax or relu)
     kind: "favor+"      # type of performer attention
