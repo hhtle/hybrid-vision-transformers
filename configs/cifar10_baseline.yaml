@@ -9,21 +9,21 @@ model:
   d_model: 256              # hidden size (embedding dim)
   heads: 4                  # number of attention heads (256/4 = 64 per head)
   mlp_ratio: 2.0            # FFN expansion ratio (hidden -> 2*hidden -> hidden)
-  depth: 8                  # number of Transformer blocks
-  layers: ["Reg","Reg","Reg","Reg","Reg","Reg","Reg","Reg"]   # all regular softmax attention
+  depth: 1                  # number of Transformer blocks
+  layers: ["Reg"]   # all regular softmax attention
   performer:
-    kind: "favor+"          # kept for compatibility; not used in this baseline
-    m: 64                   # number of random features for Performer (ignored here)
+    variant: "softmax"  # type of performer attention (softmax or relu)
+    kind: "favor+"      # type of performer attention
+    m: 64               # nb of random features for performer        
 optim:
   batch_size: 128
-  lr: 3e-4
+  lr: 0.0003
   weight_decay: 0.05        # AdamW weight decay
   epochs: 100               # training epochs
   warmup_epochs: 5          # warmup for the cosine schedule
   grad_clip: 1.0            # gradient clipping (max global norm)
 log:
   out_dir: ./runs
-  print_every: 50           # logging frequency (iterations)
   save_every: 10            # checkpoint frequency (epochs)
 misc:
   seed: 17092003            # random seed for reproducibility
