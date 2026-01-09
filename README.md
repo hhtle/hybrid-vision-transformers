@@ -13,7 +13,7 @@ on MNIST and CIFAR-10, and log accuracy, parameter counts, and training time.
 ## Project Report
 
 For a detailed analysis of the methodology, mathematical derivations of the Performer and Hybrid mechanisms, and full experimental results, please refer to the final report.
-* [Access to the Final Report (PDF)](./paper/Hybrid_ViT_Final_Report.pdf)
+* [Access to the Final Report (PDF)](https://github.com/hhtle/hybrid-vision-transformers/blob/paper/Hybrid_ViT_Final_Report.pdf)
 ---
 
 ## 1. Installation and dependencies
